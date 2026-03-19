@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nhà Sách Thông Minh - Chatbot AI hỗ trợ tìm kiếm, gợi ý và mua sách trực tuyến">
+  <title>📚 Nhà Sách Thông Minh - AI Chatbot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <span class="logo-icon">📚</span>
+          <div>
+            <h1>Nhà Sách Thông Minh</h1>
+            <span class="logo-sub">AI-Powered Bookstore</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Thể loại</h3>
+        <div id="categories-list" class="categories-list">
+          <!-- Dynamic categories -->
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <h3 class="sidebar-title">Gợi ý nhanh</h3>
+        <div class="quick-actions">
+          <button class="quick-btn" data-message="Gợi ý sách hay nhất">🌟 Sách hay nhất</button>
+          <button class="quick-btn" data-message="Sách bán chạy">🔥 Bán chạy</button>
+          <button class="quick-btn" data-message="Sách mới nhất">✨ Sách mới</button>
+          <button class="quick-btn" data-message="Sách giảm giá">💰 Giảm giá</button>
+          <button class="quick-btn" data-message="Gợi ý sách thiếu nhi">🧒 Thiếu nhi</button>
+          <button class="quick-btn" data-message="Gợi ý sách công nghệ">💻 Công nghệ</button>
+        </div>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="new-chat-btn" id="newChatBtn">
+          <span>🔄</span> Cuộc trò chuyện mới
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Bar -->
+      <header class="top-bar">
+        <button class="menu-toggle" id="menuToggle">☰</button>
+        <div class="top-bar-center">
+          <span class="status-dot"></span>
+          <span>BookBot đang trực tuyến</span>
+        </div>
+        <button class="cart-toggle" id="cartToggle">
+          🛒 <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </header>
+
+      <!-- Chat Area -->
+      <div class="chat-area" id="chatArea">
+        <!-- Welcome Message -->
+        <div class="welcome-screen" id="welcomeScreen">
+          <div class="welcome-icon">📚</div>
+          <h2>Chào mừng đến với Nhà Sách Thông Minh!</h2>
+          <p>Tôi là <strong>BookBot</strong>, trợ lý AI của bạn. Tôi có thể giúp bạn:</p>
+          <div class="welcome-features">
+            <div class="feature-card">
+              <span class="feature-icon">🔍</span>
+              <span>Tìm sách theo tên, tác giả</span>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🌟</span>
+              <span>Gợi ý sách theo sở thích</span>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">💬</span>
+              <span>Hỏi giá, tồn kho, mô tả</span>
+            </div>
+            <div class="feature-card">
+              <span class="feature-icon">🛒</span>
+              <span>Thêm vào giỏ & đặt hàng</span>
+            </div>
+          </div>
+          <div class="welcome-suggestions">
+            <button class="suggestion-chip" data-message="Xin chào!">👋 Xin chào!</button>
+            <button class="suggestion-chip" data-message="Gợi ý sách hay cho tôi">📖 Gợi ý sách hay</button>
+            <button class="suggestion-chip" data-message="Tìm sách văn học Việt Nam">🇻🇳 Sách văn học VN</button>
+            <button class="suggestion-chip" data-message="Có sách nào về kinh doanh không?">💼 Sách kinh doanh</button>
+          </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div class="messages" id="messages">
+          <!-- Dynamic messages -->
+        </div>
+      </div>
+
+      <!-- Input Area -->
+      <div class="input-area">
+        <div class="input-container">
+          <input type="text" id="messageInput" placeholder="Hỏi tôi về sách... (VD: Tìm sách Harry Potter)" autocomplete="off">
+          <button class="send-btn" id="sendBtn" disabled>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+        <span class="input-hint">Nhấn Enter để gửi • Powered by Gemini AI</span>
+      </div>
+    </main>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header">
+        <h2>🛒 Giỏ hàng</h2>
+        <button class="cart-close" id="cartClose">✕</button>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <div class="cart-empty" id="cartEmpty">
+          <span>🛒</span>
+          <p>Giỏ hàng trống</p>
+          <small>Hãy thêm sách vào giỏ qua chat!</small>
+        </div>
+      </div>
+      <div class="cart-footer" id="cartFooter" style="display:none;">
+        <div class="cart-total">
+          <span>Tổng cộng:</span>
+          <span class="total-amount" id="totalAmount">0đ</span>
+        </div>
+        <button class="checkout-btn" id="checkoutBtn">
+          🎉 Đặt hàng ngay
+        </button>
+        <button class="clear-cart-btn" id="clearCartBtn">
+          Xóa giỏ hàng
+        </button>
+      </div>
+    </aside>
+
+    <!-- Order Modal -->
+    <div class="modal-overlay" id="orderModal" style="display:none;">
+      <div class="modal">
+        <div class="modal-header">
+          <h2>📦 Thông tin đặt hàng</h2>
+          <button class="modal-close" id="orderModalClose">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="customerName">Họ tên</label>
+            <input type="text" id="customerName" placeholder="Nguyễn Văn A">
+          </div>
+          <div class="form-group">
+            <label for="customerPhone">Số điện thoại</label>
+            <input type="tel" id="customerPhone" placeholder="0901234567">
+          </div>
+          <div class="form-group">
+            <label for="customerAddress">Địa chỉ giao hàng</label>
+            <textarea id="customerAddress" placeholder="123 Đường ABC, Quận 1, TP.HCM" rows="3"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-cancel" id="orderCancel">Hủy</button>
+          <button class="modal-confirm" id="orderConfirm">✅ Xác nhận đặt hàng</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Success Modal -->
+    <div class="modal-overlay" id="orderSuccessModal" style="display:none;">
+      <div class="modal success-modal">
+        <div class="success-icon">🎉</div>
+        <h2>Đặt hàng thành công!</h2>
+        <p id="orderSuccessMsg">Mã đơn hàng: #1</p>
+        <p class="success-sub">Chúng tôi sẽ liên hệ xác nhận sớm nhất!</p>
+        <button class="modal-confirm" id="orderSuccessClose">Tuyệt vời!</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/app.js"></script>
+</body>
+</html>
